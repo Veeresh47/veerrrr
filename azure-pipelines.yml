@@ -1,12 +1,20 @@
 trigger:
-- master
+  - master
 
 pool:
- name: Default
+  name: Default
+
 steps:
- - script: echo Hello, it's my Azure Devops App
- displayName: 'Run an echo command'
- - script: mvn clean install
- displayName: 'Build with maven'
- - script: java -jar target/lab8-0.0.1-SNAPSHOT.jar
- displayName: 'Run a jar file of My lab8 App' 
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean install'
+    displayName: 'Build with Maven'
+
+  - script: |
+      echo "Hello, it's my Azure DevOps App"
+    displayName: 'Run an echo command'
+
+  - script: |
+      java -jar target/lab8-0.0.1-SNAPSHOT.jar
+    displayName: 'Run the jar file of My lab8 App'
